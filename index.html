@@ -5,6 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pedro Merino Fonolla - CV</title>
     <style>
+        :root {
+            --bg-color: #f4f4f4;
+            --card-bg: white;
+            --text-color: #333;
+            --text-secondary: #555;
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --link-color: #2980b9;
+            --shadow: rgba(0,0,0,0.1);
+            --timeline-color: #3498db;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --card-bg: #2d2d2d;
+            --text-color: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --primary-color: #4a9eff;
+            --accent-color: #4a9eff;
+            --link-color: #4a9eff;
+            --shadow: rgba(0,0,0,0.3);
+            --timeline-color: #4a9eff;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -14,41 +38,98 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background-color: #f4f4f4;
+            color: var(--text-color);
+            background-color: var(--bg-color);
             padding: 20px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Progress Bar */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--primary-color));
+            z-index: 9999;
+            transition: width 0.1s ease;
         }
 
         .container {
             max-width: 900px;
             margin: 0 auto;
-            background-color: white;
+            background-color: var(--card-bg);
             padding: 40px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px var(--shadow);
+            transition: background-color 0.3s ease;
+            position: relative;
+        }
+
+        /* Control Buttons */
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px var(--shadow);
+        }
+
+        #theme-toggle {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        #theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow);
+        }
+
+        #download-btn {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        #download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow);
         }
 
         header {
             text-align: center;
-            border-bottom: 3px solid #2c3e50;
+            border-bottom: 3px solid var(--primary-color);
             padding-bottom: 20px;
             margin-bottom: 30px;
         }
 
         h1 {
             font-size: 2.5em;
-            color: #2c3e50;
+            color: var(--primary-color);
             margin-bottom: 10px;
         }
 
         .contact-info {
-            color: #555;
+            color: var(--text-secondary);
             font-size: 0.95em;
             margin-bottom: 15px;
         }
 
         .contact-info a {
-            color: #2980b9;
+            color: var(--link-color);
             text-decoration: none;
+            transition: color 0.3s ease;
         }
 
         .contact-info a:hover {
@@ -58,21 +139,64 @@
         .summary {
             font-size: 1em;
             line-height: 1.8;
-            color: #555;
+            color: var(--text-secondary);
             text-align: justify;
         }
 
         h2 {
-            color: #2c3e50;
+            color: var(--primary-color);
             font-size: 1.8em;
             margin-top: 30px;
             margin-bottom: 20px;
-            border-bottom: 2px solid #3498db;
+            border-bottom: 2px solid var(--accent-color);
             padding-bottom: 5px;
+        }
+
+        /* Timeline Styles */
+        .experience, .education {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .experience::before, .education::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 60px;
+            bottom: 0;
+            width: 3px;
+            background: var(--timeline-color);
         }
 
         .job, .education-item {
             margin-bottom: 25px;
+            padding: 20px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px var(--shadow);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        /* Hover Effects */
+        .job:hover, .education-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px var(--shadow);
+        }
+
+        /* Timeline Dots */
+        .job::before, .education-item::before {
+            content: '';
+            position: absolute;
+            left: -33px;
+            top: 30px;
+            width: 15px;
+            height: 15px;
+            background-color: var(--timeline-color);
+            border: 3px solid var(--card-bg);
+            border-radius: 50%;
+            box-shadow: 0 0 0 3px var(--bg-color);
+            z-index: 1;
         }
 
         .job-header, .education-header {
@@ -85,22 +209,22 @@
         .company, .school {
             font-weight: bold;
             font-size: 1.1em;
-            color: #2c3e50;
+            color: var(--primary-color);
         }
 
         .location {
-            color: #555;
+            color: var(--text-secondary);
             font-style: italic;
         }
 
         .position, .degree {
             font-style: italic;
-            color: #555;
+            color: var(--text-secondary);
             margin-bottom: 5px;
         }
 
         .date {
-            color: #555;
+            color: var(--text-secondary);
             font-weight: 500;
         }
 
@@ -124,6 +248,20 @@
                 box-shadow: none;
                 padding: 20px;
             }
+
+            .controls, #progress-bar {
+                display: none !important;
+            }
+
+            .job::before, .education-item::before,
+            .experience::before, .education::before {
+                display: none;
+            }
+
+            .job, .education-item {
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
         }
 
         @media (max-width: 768px) {
@@ -143,10 +281,36 @@
             .date {
                 margin-top: 5px;
             }
+
+            .controls {
+                flex-direction: column;
+                top: 10px;
+                right: 10px;
+            }
+
+            .experience, .education {
+                padding-left: 30px;
+            }
+
+            .experience::before, .education::before {
+                left: 10px;
+            }
+
+            .job::before, .education-item::before {
+                left: -23px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Progress Bar -->
+    <div id="progress-bar"></div>
+
+    <!-- Control Buttons -->
+    <div class="controls">
+        <button id="theme-toggle" class="btn">🌓 Toggle Theme</button>
+    </div>
+
     <div class="container">
         <header>
             <h1>Pedro Merino Fonolla</h1>
@@ -336,5 +500,40 @@
             </div>
         </section>
     </div>
+
+    <script>
+        // Dark Mode Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        // Check for saved theme preference or default to light mode
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        if (currentTheme === 'dark') {
+            body.setAttribute('data-theme', 'dark');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const theme = body.getAttribute('data-theme');
+            if (theme === 'dark') {
+                body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // Scroll Progress Bar
+        const progressBar = document.getElementById('progress-bar');
+
+        window.addEventListener('scroll', () => {
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (window.scrollY / windowHeight) * 100;
+            progressBar.style.width = scrolled + '%';
+        });
+
+        // Initial progress bar update
+        window.dispatchEvent(new Event('scroll'));
+    </script>
 </body>
 </html>
